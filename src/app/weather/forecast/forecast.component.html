@@ -1,3 +1,8 @@
-<div *ngFor ="let forecast of forecastData">
-    {{forecast.temp}}
+<div *ngFor="let forecast of forecastData">
+    <div class="forecastItems">
+        <mat-list-item role="listitem">
+           <div class="temp">{{forecast.temp | number:'1.0-0'}}°C</div> 
+           <div class="day">{{forecast.dateString | date:'E'}}</div>            
+        </mat-list-item>
+    </div>
 </div>

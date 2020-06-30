@@ -1,0 +1,25 @@
+.forecastItems {
+    border: 1px solid darkgray;
+    width: 50px;
+    text-align: center;
+    padding: 10px 5px;
+}
+
+:host{
+    position: fixed;
+    left: 0;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+}
+
+.day{
+    font-style: italic;
+}
+
+.temp{
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
