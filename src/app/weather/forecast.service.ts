@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpParams, HttpClient } from "@angular/common/http";
-import { Observable, of } from 'rxjs';
-import { map, switchMap, pluck, mergeMap, filter, toArray, share } from "rxjs/operators";
+import { Observable, of, throwError } from 'rxjs';
+import { map, switchMap, pluck, mergeMap, filter, toArray, share, tap, catchError, retry } from "rxjs/operators";
+import { NotificationsService } from "../notifications/notifications.service";
 
 interface OpenWeatherResponse {
   list: {
@@ -18,7 +19,7 @@ interface OpenWeatherResponse {
 export class ForecastService {
   private url = 'https://api.openweathermap.org/data/2.5/forecast'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notificationsService: NotificationsService) { }
 
   getForecast() {
     return this.getCurrentLocation()
@@ -35,10 +36,10 @@ export class ForecastService {
         pluck('list'),
         mergeMap(listOfRecords => of(...listOfRecords)),
         filter((value, index) => index % 8 === 0),
-        map(value=>{
-          return{
+        map(value => {
+          return {
             dateString: value.dt_txt,
-            temp:value.main.temp
+            temp: value.main.temp
           }
         }),
         toArray(),
@@ -55,6 +56,15 @@ export class ForecastService {
         },
         err => observer.error(err)
       )
-    })
+    }).pipe(
+      retry(2),  //It re-subscribe 2 times, for this function, it does not make any changes
+      tap(() => {
+        this.notificationsService.addSuccess('Got your location')
+      }),
+      catchError((err) => {
+        this.notificationsService.addSuccess('Failed to get your location')
+        return throwError(err) //Return a new observable for more likely process
+      })
+    )
   }
 }

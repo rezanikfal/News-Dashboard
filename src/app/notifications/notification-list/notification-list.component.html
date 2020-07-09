@@ -1,1 +1,4 @@
-<p>notification-list works!</p>
+<div *ngFor="let message of messages | async">
+    <mat-card [ngClass]="message.type=='error'?'error':'success'">
+        <span>{{message.text}}</span><span style="cursor: pointer" (click)='clearMessage(message.id)'>x</span></mat-card>
+</div>

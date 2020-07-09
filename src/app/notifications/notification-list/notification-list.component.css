@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    width: 300px;
+}
+
+.error {
+    margin-bottom: 4px;
+    background-color: #dda6ae;
+    display: flex;
+    justify-content: space-between;
+}
+
+.success {
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #a6ddd5;
+}
