@@ -49,6 +49,8 @@ export class ForecastService {
 
   getCurrentLocation() {
     return new Observable<Coordinates>(observer => {
+      console.log('test');
+      
       window.navigator.geolocation.getCurrentPosition(
         position => {
           observer.next(position.coords)
@@ -57,12 +59,12 @@ export class ForecastService {
         err => observer.error(err)
       )
     }).pipe(
-      retry(2),  //It re-subscribe 2 times, for this function, it does not make any changes
+      retry(2),  //It re-subscribe 2 times (in case of error), for this function, it does not make any changes
       tap(() => {
         this.notificationsService.addSuccess('Got your location')
       }),
       catchError((err) => {
-        this.notificationsService.addSuccess('Failed to get your location')
+        this.notificationsService.addError('Failed to get your location')
         return throwError(err) //Return a new observable for more likely process
       })
     )
