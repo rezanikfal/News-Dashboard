@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { map, switchMap, tap, pluck } from 'rxjs/operators';
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { Interface } from 'readline';
 
-interface Article {
+export interface Article {
   title: string;
   url: string;
 }

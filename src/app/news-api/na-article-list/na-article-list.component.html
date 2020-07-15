@@ -1,0 +1,8 @@
+<div class="naContainer">
+    <h3>World News</h3>
+    <mat-nav-list>
+        <a mat-list-item *ngFor="let article of articles" [href]="article.url" target="_blank">
+            {{article.title}}
+        </a>
+    </mat-nav-list>
+</div>
